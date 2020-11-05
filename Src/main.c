@@ -76,7 +76,7 @@ uint16_t uart1_recv_len=0;
 //123.56.118.82
 uint8_t cmd_CRE_SOC[]={"AT+NSOCR=DGRAM,17,0\r\n"};//通过NB创建SOCKET，端口号随机
 
-uint8_t SERVER_IP[] = {"123.56.240.120"};
+uint8_t SERVER_IP[] = {"182.92.85.75"};
 uint8_t SERVER_PORT[] = {"8887"};
 
 uint8_t send_cmd[1024];
@@ -185,11 +185,16 @@ uint8_t send_UDP_to_Ali(uint8_t* NB_socket,int n)
 	//send_cmd[]={"AT+NSOST=2,123.56.240.120,8887,2,3132\r\n"};
 	
 	uint8_t n_string[20];
-	sprintf(n_string,"s%x",n);
-	int n_size = (strlen(n_string)-1)/2;
-	memset(send_cmd,0,1024);
-	sprintf(send_cmd,"AT+NSOST=%s,%s,%s,%d,%s\r\n",NB_socket,SERVER_IP,SERVER_PORT,n_size+1,n_string);
+	uint8_t n_string_hex[40];
+	memset(n_string_hex,0,40);
 	
+	sprintf(n_string,"s%d",n);
+	arrayToStr(n_string,n_string_hex);
+	//printf("n = %d,n_string = %s,n_stringlen= %d,n_string_hex = %s\r\n",n,n_string,strlen(n_string),n_string_hex);
+	int n_size = (strlen(n_string))/2;
+	memset(send_cmd,0,1024);
+	sprintf(send_cmd,"AT+NSOST=%s,%s,%s,%d,%s\r\n",NB_socket,SERVER_IP,SERVER_PORT,strlen(n_string_hex)/2,n_string_hex);
+	printf("send_mes%s\r\n",send_cmd);
 	
 	int i=0;
 	int j=0;
@@ -231,11 +236,22 @@ void alive_task()
 {
 	while(1)
 	{
-		LOS_TaskDelay(60000+(rand()%1000));
+		LOS_TaskDelay(10000+(rand()%1000));
 		if(send_UDP_to_Ali(NB_socket,message_n) == 1){
 			printf("sendACK%d\n",message_n);
 			
+			UINT32 uwRet = LOS_OK;
+			uwRet = LOS_SwtmrStart(id1);//启动单次软件定时器
+			if(LOS_OK != uwRet)
+			{
+					printf("start Timer1 failed\n");
+			}
+			else
+			{
+					printf("start Timer1 sucess\n");
+			}
 		}
+
 	}
 }
 
@@ -247,12 +263,27 @@ void comprehension_task()
 		char temp[100];
 		while(DeQueue(&mes_Q,temp)){
 			if(mystrstr(temp,"+NSONMI")){
-				int n = Fixed_key(temp+13);
+				int len  = strlen(temp);
+				temp[len-2] = '\0';
+				int n = Fixed_key(temp+16);
+				printf("n = %d,message_n = %d\r\n",n,message_n);
 				if(n<message_n){
 					continue;
 				}
 				printf("ACK%d\n",n);
 				message_n +=1;
+				UINT32 uwRet = LOS_OK;
+				uwRet = LOS_SwtmrStop(id1);//停止周期软件定时器1
+				
+				if(LOS_OK != uwRet)
+				{
+						printf("stop Timer1 failed\n");
+				}
+				else
+				{
+						printf("stop Timer1 sucess\n");
+				}
+				
 			}
 			memset(temp,0,100);
 		}
@@ -262,7 +293,7 @@ void comprehension_task()
 void timer1_callback()
 {
 	if(send_UDP_to_Ali(NB_socket,message_n) == 1){
-			printf("补发\r\n");
+			printf("buchang\r\n");
 	}
 }
 
@@ -365,7 +396,7 @@ static UINT32 AppTaskCreate(void)
 			return uwRet;
 	}
 	
-	task_init_param.usTaskPrio = 4;
+	task_init_param.usTaskPrio = 0;
 	task_init_param.pcName = "comprehension_task";
 	task_init_param.pfnTaskEntry = (TSK_ENTRY_FUNC)comprehension_task;
 	task_init_param.uwStackSize = 1024;
@@ -454,7 +485,6 @@ int main(void)
 	InitQueue(&mes_Q);
 
 
-
 	UINT32 uwRet = LOS_OK;
 	LOS_KernelInit();
   uwRet = AppTaskCreate();
@@ -463,11 +493,27 @@ int main(void)
       //return LOS_NOK;
   }
 	else printf("LOS Creat task OK\r\n");
-	
+
 	
 	LOS_SemPend(UDP_Binary,50);
 
 	LOS_TaskSuspend(ALIVE_Task_Handle);
+
+	
+	/*创建周期性软件定时器，每1500ms数执行回调函数1 */
+	UINT32 uwTick;
+
+  uwTick = LOS_MS2Tick(1500);//1500 ms数转换为Tick数
+  uwRet = LOS_SwtmrCreate(uwTick,LOS_SWTMR_MODE_PERIOD,timer1_callback,&id1,1);
+	
+  if(LOS_OK != uwRet)
+  {
+      printf("create Timer1 failed\n");
+  }
+  else
+  {
+      printf("create Timer1 success\n");
+  }
 
 	
 	LOS_Start();

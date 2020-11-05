@@ -239,7 +239,7 @@ extern "C" {
 
 #define LOSCFG_BASE_CORE_SWTMR_TASK                         YES
 
-#define LOSCFG_BASE_CORE_SWTMR_ALIGN                        YES
+#define LOSCFG_BASE_CORE_SWTMR_ALIGN                        NO
 #if(LOSCFG_BASE_CORE_SWTMR == NO && LOSCFG_BASE_CORE_SWTMR_ALIGN == YES)
     #error "swtmr align first need support swmtr, should make LOSCFG_BASE_CORE_SWTMR = YES"
 #endif

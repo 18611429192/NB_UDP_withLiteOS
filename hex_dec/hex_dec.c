@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "hex_dec.h"
 
-
 int tolower(int c)
 {
 	if (c >= 'A' && c <= 'Z')
@@ -28,7 +27,7 @@ int Fixed_key(char s[])
 	{
 		i = 0;
 	}
-	for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'); ++i)
+	for (;(s[i] != '\0') && ((s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) ; ++i)
 	{
 		if (tolower(s[i]) > '9')
 		{
@@ -40,4 +39,22 @@ int Fixed_key(char s[])
 		}
 	}
 	return n;
+}
+
+
+
+void arrayToStr(char *buf,char *out)
+{
+    char strBuf[33] = {0};
+    char pbuf[32];
+		unsigned int buflen = strlen(buf);
+    int i;
+    for(i = 0; i < buflen; i++)
+    {
+        sprintf(pbuf, "%02X", buf[i]);
+        strncat(strBuf, pbuf, 2);
+    }
+    strncpy(out, strBuf, buflen * 2);
+    //printf("out = %s\n", out);
+    return ;
 }

@@ -4,7 +4,7 @@
 int tolower(int c);
 
 extern int Fixed_key(char s[]);
-
+extern void arrayToStr(char *buf,char *out);
 
 
 #endif
