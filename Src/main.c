@@ -53,7 +53,9 @@
 #include <string.h>
 #include "los_sem.h"
 #include <time.h>
-
+#include "queue.h"
+#include "hex_dec.h"
+#include "los_swtmr.h"
 
 /* USER CODE END Includes */
 
@@ -70,10 +72,14 @@ uint8_t KEY2_flag=0;
 uint8_t alive_flag=0;
 uint16_t lpuart1_recv_len=0;
 uint16_t uart1_recv_len=0;
-	
+
 //123.56.118.82
 uint8_t cmd_CRE_SOC[]={"AT+NSOCR=DGRAM,17,0\r\n"};//通过NB创建SOCKET，端口号随机
-uint8_t send_cmd[]={"AT+NSOST=2,123.56.240.120,8887,2,3132\r\n"};
+
+uint8_t SERVER_IP[] = {"123.56.240.120"};
+uint8_t SERVER_PORT[] = {"8887"};
+
+uint8_t send_cmd[1024];
 
 uint8_t cmd_msg_reply[]={"AT+NSONMI=3\r\n"};//接收到信息直接报告，格式"+NSONMI: <socket>,<length>,<data>"
 
@@ -95,6 +101,15 @@ uint8_t cmd_CGATT[]={"AT+CGATT?\r\n"};//查询是否注网
 uint8_t CGATT[]={"+CGATT:1"};
 
 
+//定义全局的信息标志
+uint8_t message_flag = 0;
+int message_n = 0;
+
+//初始化消息队列
+	sqQueue mes_Q;
+
+//定义周期性的定时器
+UINT16 id1;// timer id
 
 
 void USART_IDLECallBack(void);
@@ -114,7 +129,7 @@ UINT32 CGATT_Task_Handle;
 UINT32 FIRST_READ_Task_Handle;
 UINT32 THINK_Task_Handle;
 UINT32 CLEAR_Task_Handle;
-
+UINT32 COMPREHENSION_Task_Handle;
 
 UINT32 SUB_Binary;
 UINT32 UDP_Binary;
@@ -164,12 +179,21 @@ uint8_t NB_create_tcpsocket()
 	
 }
 
-uint8_t send_UDP_to_Ali(uint8_t* NB_socket)
+uint8_t send_UDP_to_Ali(uint8_t* NB_socket,int n)
 {
-	send_cmd[9]=NB_socket[0];
+	
+	//send_cmd[]={"AT+NSOST=2,123.56.240.120,8887,2,3132\r\n"};
+	
+	uint8_t n_string[20];
+	sprintf(n_string,"s%x",n);
+	int n_size = (strlen(n_string)-1)/2;
+	memset(send_cmd,0,1024);
+	sprintf(send_cmd,"AT+NSOST=%s,%s,%s,%d,%s\r\n",NB_socket,SERVER_IP,SERVER_PORT,n_size+1,n_string);
+	
+	
 	int i=0;
 	int j=0;
-
+	
 	for(j=0;j<=20;j++)
 	{
 		HAL_UART_Transmit(&hlpuart1,send_cmd,mysizeof(send_cmd),0xff);
@@ -193,14 +217,6 @@ uint8_t send_UDP_to_Ali(uint8_t* NB_socket)
 
 
 
-void alive_to_MQTT()
-{
-	send_UDP_to_Ali(NB_socket);
-}
-
-
-
-
 void LED_task()
 {
 	while(1)
@@ -216,9 +232,41 @@ void alive_task()
 	while(1)
 	{
 		LOS_TaskDelay(60000+(rand()%1000));
-		alive_to_MQTT();
+		if(send_UDP_to_Ali(NB_socket,message_n) == 1){
+			printf("sendACK%d\n",message_n);
+			
+		}
 	}
 }
+
+void comprehension_task()
+{
+	while(1)
+	{
+		LOS_TaskDelay(10);
+		char temp[100];
+		while(DeQueue(&mes_Q,temp)){
+			if(mystrstr(temp,"+NSONMI")){
+				int n = Fixed_key(temp+13);
+				if(n<message_n){
+					continue;
+				}
+				printf("ACK%d\n",n);
+				message_n +=1;
+			}
+			memset(temp,0,100);
+		}
+	}
+}
+
+void timer1_callback()
+{
+	if(send_UDP_to_Ali(NB_socket,message_n) == 1){
+			printf("补发\r\n");
+	}
+}
+
+
 
 
 
@@ -317,6 +365,17 @@ static UINT32 AppTaskCreate(void)
 			return uwRet;
 	}
 	
+	task_init_param.usTaskPrio = 4;
+	task_init_param.pcName = "comprehension_task";
+	task_init_param.pfnTaskEntry = (TSK_ENTRY_FUNC)comprehension_task;
+	task_init_param.uwStackSize = 1024;
+	uwRet = LOS_TaskCreate(&COMPREHENSION_Task_Handle, &task_init_param);
+	if (uwRet != LOS_OK)
+	{
+			printf("COMPREHENSION_Task create failed,%X\n",uwRet);
+			return uwRet;
+	}
+	
 	
 	return LOS_OK;
 }
@@ -388,6 +447,13 @@ int main(void)
 
 //创建一个随机种子，解决函数中因为定时所可能出现的碰撞问题，
   srand((unsigned)time(NULL));
+	
+	
+	
+//初始化消息队列
+	InitQueue(&mes_Q);
+
+
 
 	UINT32 uwRet = LOS_OK;
 	LOS_KernelInit();
@@ -556,6 +622,8 @@ void LPUART_IDLECallBack()
 	LOS_TaskDelay(20);
 	HAL_UART_DMAStop(&hlpuart1);
 	printf("data:%s",data);
+	
+	EnQueue(&mes_Q,data);
 	memcpy(reply_from_lpuart1,data,MAX_RCV_LEN);
 	memset(data,0,MAX_RCV_LEN);
 	HAL_UART_Receive_DMA(&hlpuart1,data,MAX_RCV_LEN);

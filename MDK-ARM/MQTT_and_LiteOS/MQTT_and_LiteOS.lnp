@@ -51,6 +51,8 @@
 "mqtt_and_liteos\los_err.o"
 "mqtt_and_liteos\los_tickless.o"
 "mqtt_and_liteos\mqtt.o"
+"mqtt_and_liteos\queue.o"
+"mqtt_and_liteos\hex_dec.o"
 --library_type=microlib --nodebug --strict --scatter "MQTT_and_LiteOS\MQTT_and_LiteOS.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

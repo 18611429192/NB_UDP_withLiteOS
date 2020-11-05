@@ -65,3 +65,6 @@ mqtt_and_liteos\main.o: ..\kernel\base\include\los_heap.ph
 mqtt_and_liteos\main.o: ..\kernel\include\los_heap.h
 mqtt_and_liteos\main.o: ..\kernel\include\los_sem.h
 mqtt_and_liteos\main.o: D:\uvision5\ARM\ARMCC\Bin\..\include\time.h
+mqtt_and_liteos\main.o: ..\queue\queue.h
+mqtt_and_liteos\main.o: ..\hex_dec\hex_dec.h
+mqtt_and_liteos\main.o: ..\kernel\include\los_swtmr.h
