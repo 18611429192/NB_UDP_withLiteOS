@@ -76,7 +76,7 @@ uint16_t uart1_recv_len=0;
 //123.56.118.82
 uint8_t cmd_CRE_SOC[]={"AT+NSOCR=DGRAM,17,0\r\n"};//通过NB创建SOCKET，端口号随机
 
-uint8_t SERVER_IP[] = {"182.92.85.75"};
+uint8_t SERVER_IP[] = {"39.102.103.94"};
 uint8_t SERVER_PORT[] = {"8887"};
 
 uint8_t send_cmd[1024];
@@ -194,7 +194,7 @@ uint8_t send_UDP_to_Ali(uint8_t* NB_socket,int n)
 	int n_size = (strlen(n_string))/2;
 	memset(send_cmd,0,1024);
 	sprintf(send_cmd,"AT+NSOST=%s,%s,%s,%d,%s\r\n",NB_socket,SERVER_IP,SERVER_PORT,strlen(n_string_hex)/2,n_string_hex);
-	printf("send_mes%s\r\n",send_cmd);
+	//printf("send_mes%s\r\n",send_cmd);
 	
 	int i=0;
 	int j=0;
@@ -263,9 +263,13 @@ void comprehension_task()
 		char temp[100];
 		while(DeQueue(&mes_Q,temp)){
 			if(mystrstr(temp,"+NSONMI")){
-				int len  = strlen(temp);
-				temp[len-2] = '\0';
-				int n = Fixed_key(temp+16);
+				
+				uint8_t* s =strstr(temp,",");
+				printf("s1 : %s",s);
+				s = strstr(s+1,",");
+				printf("s2 : %s",s);
+				printf("s2+3 : %s",s+3);
+				int n = Fixed_key(s+3);
 				printf("n = %d,message_n = %d\r\n",n,message_n);
 				if(n<message_n){
 					continue;

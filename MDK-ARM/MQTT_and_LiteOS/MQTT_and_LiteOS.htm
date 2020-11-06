@@ -3,7 +3,7 @@
 <title>Static Call Graph - [MQTT_and_LiteOS\MQTT_and_LiteOS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image MQTT_and_LiteOS\MQTT_and_LiteOS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Nov 05 22:19:09 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 06 10:23:36 2020
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -434,17 +434,21 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 
-<P><STRONG><a name="[fd]"></a>strncpy</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, strncpy.o(.text))
+<P><STRONG><a name="[fd]"></a>strstr</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, strstr.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comprehension_task
+</UL>
+
+<P><STRONG><a name="[fc]"></a>strncpy</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, strncpy.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arrayToStr
 </UL>
 
-<P><STRONG><a name="[fa]"></a>strlen</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, strlen.o(.text))
+<P><STRONG><a name="[77]"></a>strlen</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, strlen.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arrayToStr
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fixed_key
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_UDP_to_Ali
-<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comprehension_task
 </UL>
 
-<P><STRONG><a name="[fc]"></a>strncat</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, strncat.o(.text))
+<P><STRONG><a name="[fb]"></a>strncat</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, strncat.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arrayToStr
 </UL>
 
@@ -519,8 +523,9 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_IDLECallBack
 </UL>
 
-<P><STRONG><a name="[76]"></a>Fixed_key</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, hex_dec.o(i.Fixed_key))
-<BR><BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tolower
+<P><STRONG><a name="[76]"></a>Fixed_key</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, hex_dec.o(i.Fixed_key))
+<BR><BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comprehension_task
 </UL>
@@ -1218,6 +1223,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_Start
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_SemPend
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_KernelInit
+<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fixed_key
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer1_callback
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_UDP_to_Ali
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1238,7 +1244,7 @@ Global Symbols
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
-<P><STRONG><a name="[fb]"></a>__2sprintf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printf8.o(i.__0sprintf$8))
+<P><STRONG><a name="[fa]"></a>__2sprintf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printf8.o(i.__0sprintf$8))
 <BR><BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arrayToStr
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_UDP_to_Ali
 </UL>
@@ -1253,22 +1259,22 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.AppTaskCreate)
 </UL>
 <P><STRONG><a name="[f9]"></a>arrayToStr</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, hex_dec.o(i.arrayToStr))
-<BR><BR>[Calls]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncat
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
-<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncpy
+<BR><BR>[Calls]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncat
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncpy
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_UDP_to_Ali
 </UL>
 
-<P><STRONG><a name="[51]"></a>comprehension_task</STRONG> (Thumb, 116 bytes, Stack size 0 bytes, main.o(i.comprehension_task))
+<P><STRONG><a name="[51]"></a>comprehension_task</STRONG> (Thumb, 146 bytes, Stack size 0 bytes, main.o(i.comprehension_task))
 <BR><BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_TaskDelay
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_SwtmrStop
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fixed_key
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DeQueue
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mystrstr
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -1684,15 +1690,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_TaskCreateOnly
 </UL>
 
-<P><STRONG><a name="[f8]"></a>send_UDP_to_Ali</STRONG> (Thumb, 162 bytes, Stack size 0 bytes, main.o(i.send_UDP_to_Ali))
+<P><STRONG><a name="[f8]"></a>send_UDP_to_Ali</STRONG> (Thumb, 154 bytes, Stack size 0 bytes, main.o(i.send_UDP_to_Ali))
 <BR><BR>[Calls]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arrayToStr
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_TaskDelay
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mystrstr
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mysizeof
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer1_callback
@@ -1705,10 +1711,6 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[77]"></a>tolower</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, hex_dec.o(i.tolower))
-<BR><BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fixed_key
-</UL>
-
 <P><STRONG><a name="[4f]"></a>udpsocket_task</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, main.o(i.udpsocket_task))
 <BR><BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_TaskResume
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_SemPend
