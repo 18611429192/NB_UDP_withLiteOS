@@ -21,10 +21,10 @@ int Fixed_key(char s[])
 	
 	int len = strlen(s);
 	
-	printf("hanshu s = %s,len = %d",s,len);
-	for(int i =0;i<len;i++){
-		printf("s[%d] = %c",i,s[i]);
-	}
+	//printf("hanshu s = %s,len = %d",s,len);
+	//for(int i =0;i<len;i++){
+	//	printf("s[%d] = %c",i,s[i]);
+	//}
 	
 	for(int i =1;i<len-2;){
 		n = n*10 + (s[i]-'0');

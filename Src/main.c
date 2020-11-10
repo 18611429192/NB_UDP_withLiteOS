@@ -236,7 +236,7 @@ void alive_task()
 {
 	while(1)
 	{
-		LOS_TaskDelay(10000+(rand()%1000));
+		LOS_TaskDelay(60000+(rand()%1000));
 		if(send_UDP_to_Ali(NB_socket,message_n) == 1){
 			printf("sendACK%d\n",message_n);
 			
@@ -259,18 +259,19 @@ void comprehension_task()
 {
 	while(1)
 	{
-		LOS_TaskDelay(10);
+		LOS_TaskDelay(5);
 		char temp[100];
 		while(DeQueue(&mes_Q,temp)){
+			printf("tmep:%s\r\n",temp);
 			if(mystrstr(temp,"+NSONMI")){
 				
 				uint8_t* s =strstr(temp,",");
-				printf("s1 : %s",s);
+				//printf("s1 : %s",s);
 				s = strstr(s+1,",");
-				printf("s2 : %s",s);
-				printf("s2+3 : %s",s+3);
+				//printf("s2 : %s",s);
+				//printf("s2+3 : %s",s+3);
 				int n = Fixed_key(s+3);
-				printf("n = %d,message_n = %d\r\n",n,message_n);
+				//printf("n = %d,message_n = %d\r\n",n,message_n);
 				if(n<message_n){
 					continue;
 				}
@@ -297,7 +298,7 @@ void comprehension_task()
 void timer1_callback()
 {
 	if(send_UDP_to_Ali(NB_socket,message_n) == 1){
-			printf("buchang\r\n");
+		printf("buchang:%d\r\n",message_n);
 	}
 }
 
@@ -504,10 +505,10 @@ int main(void)
 	LOS_TaskSuspend(ALIVE_Task_Handle);
 
 	
-	/*创建周期性软件定时器，每1500ms数执行回调函数1 */
+	/*创建周期性软件定时器，每1000ms数执行回调函数1 */
 	UINT32 uwTick;
 
-  uwTick = LOS_MS2Tick(1500);//1500 ms数转换为Tick数
+  uwTick = LOS_MS2Tick(1000);//1000 ms数转换为Tick数
   uwRet = LOS_SwtmrCreate(uwTick,LOS_SWTMR_MODE_PERIOD,timer1_callback,&id1,1);
 	
   if(LOS_OK != uwRet)
@@ -671,7 +672,7 @@ void LPUART_IDLECallBack()
 	__HAL_UART_CLEAR_IDLEFLAG(&hlpuart1);
 	LOS_TaskDelay(20);
 	HAL_UART_DMAStop(&hlpuart1);
-	printf("data:%s",data);
+	//printf("data:%s",data);
 	
 	EnQueue(&mes_Q,data);
 	memcpy(reply_from_lpuart1,data,MAX_RCV_LEN);

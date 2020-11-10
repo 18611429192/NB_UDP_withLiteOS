@@ -3,7 +3,7 @@
 <title>Static Call Graph - [MQTT_and_LiteOS\MQTT_and_LiteOS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image MQTT_and_LiteOS\MQTT_and_LiteOS.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 06 10:23:36 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Nov 10 10:45:49 2020
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -523,9 +523,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_IDLECallBack
 </UL>
 
-<P><STRONG><a name="[76]"></a>Fixed_key</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, hex_dec.o(i.Fixed_key))
+<P><STRONG><a name="[76]"></a>Fixed_key</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, hex_dec.o(i.Fixed_key))
 <BR><BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comprehension_task
 </UL>
@@ -1068,14 +1067,13 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32l431xx.o(RESET)
 </UL>
-<P><STRONG><a name="[db]"></a>LPUART_IDLECallBack</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, main.o(i.LPUART_IDLECallBack))
+<P><STRONG><a name="[db]"></a>LPUART_IDLECallBack</STRONG> (Thumb, 70 bytes, Stack size 0 bytes, main.o(i.LPUART_IDLECallBack))
 <BR><BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_TaskDelay
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_DMA
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_DMAStop
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnQueue
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_IRQHandler
 </UL>
@@ -1223,14 +1221,12 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_Start
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_SemPend
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_KernelInit
-<LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fixed_key
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer1_callback
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_UDP_to_Ali
 <LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;comprehension_task
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alive_task
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NB_create_tcpsocket
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_IDLECallBack
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppTaskCreate
 <LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_MemInit
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osHeapFree
@@ -1268,7 +1264,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_UDP_to_Ali
 </UL>
 
-<P><STRONG><a name="[51]"></a>comprehension_task</STRONG> (Thumb, 146 bytes, Stack size 0 bytes, main.o(i.comprehension_task))
+<P><STRONG><a name="[51]"></a>comprehension_task</STRONG> (Thumb, 112 bytes, Stack size 0 bytes, main.o(i.comprehension_task))
 <BR><BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_TaskDelay
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LOS_SwtmrStop
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Fixed_key
@@ -1705,7 +1701,7 @@ Global Symbols
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;alive_task
 </UL>
 
-<P><STRONG><a name="[59]"></a>timer1_callback</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(i.timer1_callback))
+<P><STRONG><a name="[59]"></a>timer1_callback</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, main.o(i.timer1_callback))
 <BR><BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_UDP_to_Ali
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
